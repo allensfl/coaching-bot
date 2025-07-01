@@ -1,0 +1,20 @@
+#!/usr/bin/env python3
+import os
+from flask import Flask
+from dotenv import load_dotenv
+
+load_dotenv()
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return """<h1>🎯 Ruhestandscoaching</h1>
+    <a href=\"/coaching\">🎯 Coaching starten</a>
+    <a href=\"/test\">🧪 Test</a>"""
+
+@app.route("/test")
+def test():
+    return "<h1>✅ Test OK!</h1>"
+
+if __name__ == "__main__":
+    app.run(port=8080, debug=True)

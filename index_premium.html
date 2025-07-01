@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧠 Intelligentes Ruhestandscoaching</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            font-weight: 300;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .center-panel {
+            text-align: center;
+        }
+
+        .progress-circle {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        .circle-bg, .circle-progress {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .circle-bg {
+            background: conic-gradient(from 0deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 100%);
+        }
+
+        .circle-progress {
+            background: conic-gradient(from 0deg, #4facfe 0%, #00f2fe 75%, rgba(255,255,255,0.1) 75%);
+            animation: rotate 2s ease-in-out;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .phase-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+        }
+
+        .phase {
+            flex: 1;
+            text-align: center;
+            padding: 15px 10px;
+            border-radius: 10px;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.7);
+        }
+
+        .phase.active {
+            background: rgba(79, 172, 254, 0.3);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .phase.completed {
+            background: rgba(46, 213, 115, 0.3);
+            color: white;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px 10px;
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 172, 254, 0.6);
+        }
+
+        .feature-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .feature-list li {
+            color: white;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+
+        .feature-list li::before {
+            content: "✨";
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        .admin-panel h3, .email-panel h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .admin-buttons {
+            display: grid;
+            gap: 15px;
+        }
+
+        .admin-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 15px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-size: 1rem;
+        }
+
+        .admin-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(5px);
+        }
+
+        .email-integration {
+            background: rgba(46, 213, 115, 0.2);
+            border: 1px solid rgba(46, 213, 115, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #2ed573;
+            margin-right: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(-90deg); }
+            to { transform: rotate(180deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-circle:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-circle:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .floating-circle:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            top: 80%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @media (max-width: 1200px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-circle"></div>
+        <div class="floating-circle"></div>
+        <div class="floating-circle"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <h1>🧠 Intelligentes Ruhestandscoaching</h1>
+            <p>Mit automatischem Phase-Tracking und Quick Wins implementiert!</p>
+        </header>
+
+        <div class="main-grid">
+            <div class="glass-card admin-panel">
+                <h3>🔧 Admin-Bereich</h3>
+                <div class="admin-buttons">
+                    <button class="admin-btn">👥 Benutzer verwalten</button>
+                    <button class="admin-btn">📊 Session-Übersicht</button>
+                    <button class="admin-btn">📈 Berichte generieren</button>
+                    <button class="admin-btn">⚙️ System-Einstellungen</button>
+                    <button class="admin-btn">💾 Backup & Export</button>
+                </div>
+            </div>
+
+            <div class="glass-card center-panel">
+                <div class="progress-circle">
+                    <div class="circle-bg"></div>
+                    <div class="circle-progress"></div>
+                    <div class="progress-text">75%</div>
+                </div>
+
+                <div class="phase-indicator">
+                    <div class="phase completed">
+                        <div>📝</div>
+                        <div>Analyse</div>
+                    </div>
+                    <div class="phase completed">
+                        <div>🎯</div>
+                        <div>Planung</div>
+                    </div>
+                    <div class="phase active">
+                        <div>🚀</div>
+                        <div>Umsetzung</div>
+                    </div>
+                    <div class="phase">
+                        <div>🎉</div>
+                        <div>Optimierung</div>
+                    </div>
+                </div>
+
+                <button class="cta-button" onclick="location.href='/chat'">🚀 Coaching starten</button>
+                <button class="cta-button">📊 Dashboard</button>
+
+                <ul class="feature-list">
+                    <li>Coach-Übernahme System - Mensch-KI-Hybrid</li>
+                    <li>DSGVO-Compliance Dashboard - Rechtssicherheit</li>
+                    <li>Live Session-Monitoring - Skalierbarkeit</li>
+                    <li>Intelligente Chat-Engine - Technologie</li>
+                </ul>
+            </div>
+
+            <div class="glass-card email-panel">
+                <h3>📧 E-Mail Integration</h3>
+                <div class="email-integration">
+                    <div style="color: white; margin-bottom: 15px;">
+                        <span class="status-indicator"></span>
+                        <strong>System aktiv</strong>
+                    </div>
+                    <div style="color: rgba(255,255,255,0.9); font-size: 0.95rem; line-height: 1.6;">
+                        <p><strong>Automatische Benachrichtigungen:</strong></p>
+                        <p>• Session-Erinnerungen</p>
+                        <p>• Fortschritts-Updates</p>
+                        <p>• Coaching-Termine</p>
+                        <br>
+                        <p><strong>SMTP-Server:</strong> aktiv</p>
+                        <p><strong>Letzte Synchronisation:</strong> vor 2 Min.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
