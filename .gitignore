@@ -1,0 +1,7 @@
+.env
+*.env
+railway-deployment/.env
+.env.backup
+__pycache__/
+*.pyc
+.DS_Store
