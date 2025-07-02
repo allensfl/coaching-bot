@@ -346,7 +346,7 @@
                 </div>
 
                 <button class="cta-button" onclick="location.href='/chat'">🚀 Coaching starten</button>
-                <button class="cta-button">📊 Dashboard</button>
+                <button class="cta-button" onclick="showDashboard()">📊 Dashboard</button>
 
                 <ul class="feature-list">
                     <li>Coach-Übernahme System - Mensch-KI-Hybrid</li>
@@ -376,5 +376,23 @@
             </div>
         </div>
     </div>
+<script>
+function showDashboard() {
+    // Dashboard-Sektion sichtbar machen
+    const dashboard = document.querySelector(".dashboard-container, .admin-section");
+    const landing = document.querySelector(".hero-section, .features");
+    
+    if (dashboard) dashboard.style.display = "block";
+    if (landing) landing.style.display = "none";
+}
+
+function showLanding() {
+    const dashboard = document.querySelector(".dashboard-container, .admin-section");
+    const landing = document.querySelector(".hero-section, .features");
+    
+    if (dashboard) dashboard.style.display = "none";
+    if (landing) landing.style.display = "block";
+}
+</script>
 </body>
 </html>
