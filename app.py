@@ -1,22 +1,16 @@
-#!/usr/bin/env python3
+from flask import Flask, send_from_directory
 import os
-import sys
-from coaching_webapp_real import app, start_email_monitor
 
-# Production-Konfiguration
-if os.environ.get('FLASK_ENV') == 'production':
-    app.config['DEBUG'] = False
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return send_from_directory('.', 'index_premium.html')
+
+@app.route('/premium')
+def premium_dashboard():
+    return send_from_directory('.', 'index_premium.html')
 
 if __name__ == '__main__':
-    print("🌐 PRODUCTION: Coaching System startet...")
-    print("📧 E-Mail Monitor wird gestartet...")
-    
-    # E-Mail Monitor starten
-    start_email_monitor()
-    
-    # Produktionsserver
-    app.run(
-        host='0.0.0.0',
-        port=int(os.environ.get('PORT', 5000)),
-        debug=False
-    )
+    port = int(os.environ.get('PORT', 10000))
+    app.run(host='0.0.0.0', port=port, debug=False)
